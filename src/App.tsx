@@ -8,11 +8,8 @@ import { Todo } from './types/Todo';
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
-  
-  // Разбиваем длинный тип на несколько строк
-  const [filter, setFilter] = useState<
-    'all' | 'active' | 'completed'
-  >('all');
+
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
   useEffect(() => {
     setErrorMessage('');
@@ -22,7 +19,9 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!errorMessage) return;
+    if (!errorMessage) {
+      return;
+    }
 
     const timer = setTimeout(() => {
       setErrorMessage('');
@@ -36,8 +35,14 @@ export const App: React.FC = () => {
   }
 
   const visibleTodos = todos.filter(todo => {
-    if (filter === 'active') return !todo.completed;
-    if (filter === 'completed') return todo.completed;
+    if (filter === 'active') {
+      return !todo.completed;
+    }
+
+    if (filter === 'completed') {
+      return todo.completed;
+    }
+
     return true;
   });
 
@@ -45,7 +50,6 @@ export const App: React.FC = () => {
   const hasCompletedTodos = todos.some(t => t.completed);
   const isAllCompleted = todos.length > 0 && activeTodosCount === 0;
 
-  // Формируем длинные классы заранее, чтобы избежать ошибок ESLint
   const toggleAllClass = `todoapp__toggle-all ${
     isAllCompleted ? 'active' : ''
   }`;
@@ -117,9 +121,8 @@ export const App: React.FC = () => {
                   </button>
 
                   <div data-cy="TodoLoader" className="modal overlay">
-                    <div 
-                      className="modal-background has-background-white-ter" 
-                    />
+                    {/* eslint-disable-next-line max-len */}
+                    <div className="modal-background has-background-white-ter" />
                     <div className="loader" />
                   </div>
                 </div>
